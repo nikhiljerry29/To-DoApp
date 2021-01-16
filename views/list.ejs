@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>To-Do App</title>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat|Ubuntu" rel="stylesheet">
+
+	<!-- CSS Stylesheets -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Font Awesome -->
+	<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+	<!-- Bootstrap Scripts -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row list-section box-radius">
+				<div class="col-sm big-heading">
+					<h1>Hola!</h1>
+					<h1>Username.</h1>
+					<h1>Today's List</h1>
+				</div>
+				<div class="col-sm">
+					<div class="col-md-auto date list-box box-radius">
+						<h2>12 January 2021</h2>
+					</div>	
+					<div class="col-sm box">
+						<% for (var i = 0; i < newListItem.length; i++) { %>
+						<div class="col-sm item">
+							<input type="checkbox">
+							<p><%= newListItem[i] %></p>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+			<div class="row input-area">
+				<div class="col">
+					<form action="/" method="post">
+						<input class="box-radius" type="text" name="newItem" placeholder="  Enter Your Task" autocomplete="off">
+						<button type="submit" name="button">+</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer id="footer">
+		<div class="container">
+			<i class="social-icon fab fa-facebook-f"></i>
+			<i class="social-icon fab fa-twitter"></i>
+			<i class="social-icon fab fa-instagram"></i>
+			<a href="https://github.com/nikhiljerry29" target="blank"><i class="social-icon fab fa-github"></i></a>
+			<i class="social-icon fas fa-envelope"></i>
+			<h6>Made with 💕 by Jerry</h6>
+			<div class="quotes">
+				<em>
+					"<%= quotesFull['quote'] %>"<br>
+				</em>
+					-<%= quotesFull['author'] %>					
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
