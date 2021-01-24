@@ -3,7 +3,7 @@ module.exports.getDate = function () {
 	const today = new Date();
 
 	const options = {
-		weekday: "long",
+		weekday: "short",
 		day: "numeric",
 		month: "long"
 	};
