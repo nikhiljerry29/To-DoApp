@@ -1,35 +1,39 @@
 <%- include("header") -%>
-	<section>
-		<div class="container">
-			<div class="row list-section box-radius">
-				<div class="col-sm big-heading">
-					<h1>Hola!</h1>
-					<h1>Username.</h1>
-					<h1>Your<br><%= listCategory %> List.</h1>
-				</div>
-				<div class="col-sm">
-					<div class="col-md-auto date list-box box-radius">
-						<h2><%= displayDate %></h2>
-					</div>	
-					<div class="col-sm box">
-						<% for (var i = 0; i < newListItem.length; i++) { %>
-						<div class="col-sm item">
-							<input type="checkbox">
-							<p><%= newListItem[i] %></p>
-						</div>
-						<% } %>
-					</div>
-				</div>
+<section>
+	<div class="container">
+		<div class="row list-section box-radius">
+			<div class="col-sm big-heading">
+				<h1>Hola!</h1>
+				<h1>Username.</h1>
+				<h1>Your<br><%= listCategory %> List.</h1>
 			</div>
-			<div class="row input-area">
-				<div class="col">
-					<form action="/" method="post">
-						<input class="box-radius" type="text" name="newItem" placeholder="  Enter Your Task" autocomplete="off">
-						<button type="submit" name="list" value = <%= listCategory %>>+</button>
+			<div class="col-sm">
+				<div class="col-md-auto date list-box box-radius">
+					<h2><%= displayDate %></h2>
+				</div>	
+				<div class="col-sm box">
+
+					<% newListItem.forEach(function(items) { %>
+					<form action="/delete" method="post">
+						<div class="col-sm item">
+							<input type="checkbox" name="checkbox" value = "<%= items._id %>"onChange="this.form.submit()">
+							<p><%= items.description %></p>
+						</div>
 					</form>
+					<% }) %>
+
 				</div>
 			</div>
 		</div>
-	</section>
+		<div class="row input-area">
+			<div class="col">
+				<form action="/" method="post">
+					<input class="box-radius" type="text" name="newItem" placeholder="  Enter Your Task" autocomplete="off">
+					<button type="submit" name="list" value = <%= listCategory %>>+</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
 
 <%- include("footer") -%>
