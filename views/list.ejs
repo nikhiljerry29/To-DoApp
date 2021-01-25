@@ -12,13 +12,18 @@
 					<h2><%= displayDate %></h2>
 				</div>	
 				<div class="col-sm box">
-
+					<% if (newListItem.length === 0) { %>
+					<div class="col-sm item">
+						<p>Your list is empty!!</p>
+					</div>
+					<% } %>
 					<% newListItem.forEach(function(items) { %>
 					<form action="/delete" method="post">
 						<div class="col-sm item">
-							<input type="checkbox" name="checkbox" value = "<%= items._id %>"onChange="this.form.submit()">
+							<input type="checkbox" name="checkbox" value="<%= items._id %>"onChange="this.form.submit()">
 							<p><%= items.description %></p>
 						</div>
+						<input type="hidden" name="listName" value="<%= listCategory %>"></input>
 					</form>
 					<% }) %>
 
@@ -29,7 +34,7 @@
 			<div class="col">
 				<form action="/" method="post">
 					<input class="box-radius" type="text" name="newItem" placeholder="  Enter Your Task" autocomplete="off">
-					<button type="submit" name="list" value = "<%= listCategory %>">+</button>
+					<button type="submit" name="list" value="<%= listCategory %>">+</button>
 				</form>
 			</div>
 		</div>

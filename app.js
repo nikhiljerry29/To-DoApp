@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const iquotes = require('iquotes');
 const mongoose = require('mongoose');
+const _ = require('lodash');
+
 const date = require(__dirname + "/date.js");
 
 const displayDate = date.getDate();
@@ -48,10 +50,8 @@ app.get("/", function(req, res){
 			Items.insertMany(defaultItems, function(err) {
 				if (err)
 					console.log(err + "-m Insertting new element in Items");
-				else
-					console.log("Sucessfully Saved");
 			});	
-			res.redirect("");		
+			res.redirect("/");		
 		}
 		else {
 			res.render("list", {
@@ -66,7 +66,7 @@ app.get("/", function(req, res){
 });
 
 app.get("/:customListName", function(req,res) {
-	const customListName = req.params.customListName;
+	const customListName = _.capitalize(req.params.customListName);
 
 	List.findOne({name: customListName}, function(err, foundList) {
 		if (!err){
@@ -118,11 +118,22 @@ app.post("/", function(req, res) {
 
 app.post("/delete", function(req, res) {
 	const checkedItemID = req.body.checkbox;
-	Items.findByIdAndRemove(checkedItemID, function(err) {
-		if (err)
-			console.log("Error in deleting the item");
-	});
-	res.redirect("/");
+	const listName =  req.body.listName;
+
+	if(listName === "Personal")	{
+		Items.findByIdAndRemove(checkedItemID, function(err) {
+			if (err)
+				console.log("Error in deleting the item");
+		});
+		res.redirect("/");
+	} else {
+		List.findOneAndUpdate({name : listName}, {$pull: {items: {_id: checkedItemID}}}, function(err, foundList) {
+			if(!err) {
+				res.redirect("/" + listName);
+			}
+		})
+	}
+
 });
 
 const port = 8080;
