@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 
 const date = require(__dirname + "/date.js");
+const config = require(__dirname + "/config.js");
+
+console.log();
 
 const displayDate = date.getDate();
 
@@ -13,7 +16,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-const mongooseUrl = "mongodb+srv://admin-nikhil:29Todo@cluster0.o7oed.mongodb.net/todolistDB";
+const mongooseUrl = "mongodb+srv://" + config['config']['username'] + ":" + config['config']['password'] + "@cluster0.o7oed.mongodb.net/todolistDB";
 mongoose.connect(mongooseUrl, { useNewUrlParser: true , useUnifiedTopology: true });
 
 const itemsSchema = new mongoose.Schema({
@@ -136,7 +139,7 @@ app.post("/delete", function(req, res) {
 
 });
 
-const port = process.env.PORT;
+let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8080;
 }

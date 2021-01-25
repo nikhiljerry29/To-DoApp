@@ -106,3 +106,5 @@ dist
 # sublime files
 todoapp.sublime-workspace
 todoapp.sublime-project
+
+config.js
