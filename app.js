@@ -11,8 +11,6 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-const workItems = []
-
 const mongooseUrl = "mongodb://localhost:27017/todolistDB";
 mongoose.connect(mongooseUrl, { useNewUrlParser: true , useUnifiedTopology: true });
 
@@ -34,15 +32,20 @@ const item3 = new Items ({
 	description : "<-- Hit this to delete an item."
 });
 
-const defaultItem = [item1, item2, item3];
+const defaultItems = [item1, item2, item3];
 
+const listSchema = new mongoose.Schema({
+	name: String,
+	items: [itemsSchema]
+});
 
+const List = new mongoose.model("List", listSchema);
 
 app.get("/", function(req, res){
 
 	Items.find({},function(err, foundItems) {
 		if (foundItems.length === 0) {
-			Items.insertMany(defaultItem, function(err) {
+			Items.insertMany(defaultItems, function(err) {
 				if (err)
 					console.log(err + "-m Insertting new element in Items");
 				else
@@ -62,14 +65,53 @@ app.get("/", function(req, res){
 
 });
 
+app.get("/:customListName", function(req,res) {
+	const customListName = req.params.customListName;
+
+	List.findOne({name: customListName}, function(err, foundList) {
+		if (!err){
+			if (!foundList){
+				const list = new List({
+					name: customListName,
+					items: defaultItems
+				});
+
+				list.save();
+				res.redirect("/" + customListName);
+			}
+			else{
+				res.render("list", {
+					listCategory : foundList.name,
+					displayDate : displayDate,
+					newListItem : foundList.items,
+					quotesFull : iquotes.random('life')
+				});
+			}
+		}
+	})
+});
+
 app.post("/", function(req, res) {
 	const itemName = req.body.newItem;
+	const listName = req.body.list;
 	if (itemName !== ""){
 		const newItem = new Items({
 			description : itemName
-		})
-		newItem.save();
-		res.redirect("/");
+		});
+
+		if (listName === "Personal"){
+			newItem.save();
+			res.redirect("/");
+		}
+		else {
+			List.findOne({name : listName}, function (err, foundList) {
+				foundList.items.push(newItem);
+				foundList.save();
+
+				res.redirect("/" + listName);
+			})
+		}
+
 	}
 
 });
@@ -81,16 +123,6 @@ app.post("/delete", function(req, res) {
 			console.log("Error in deleting the item");
 	});
 	res.redirect("/");
-});
-
-app.get("/work", function(req, res) {
-	res.render("list", {
-		listCategory : "Work",
-		displayDate : displayDate,
-		newListItem : workItems,
-		quotesFull : iquotes.random('life')
-	});
-
 });
 
 const port = 8080;
