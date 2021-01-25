@@ -12,6 +12,9 @@
   },
   "author": "Nikhil Gupta",
   "license": "ISC",
+  "engines": {
+    "node": "12.19.0"
+  },
   "bugs": {
     "url": "https://github.com/nikhiljerry29/To-DoApp/issues"
   },
