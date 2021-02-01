@@ -6,8 +6,6 @@ const _ = require('lodash');
 
 const date = require(__dirname + "/date.js");
 
-console.log();
-
 const displayDate = date.getDate();
 
 const app = express();
@@ -15,7 +13,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-const mongooseUrl = process.env.MONGOURI;
+const mongooseUrl = process.env.MONGOURI || "mongodb://localhost:27017/todolistDB";
 mongoose.connect(mongooseUrl, { useNewUrlParser: true , useUnifiedTopology: true });
 
 const itemsSchema = new mongoose.Schema({
