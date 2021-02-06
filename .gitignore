@@ -106,3 +106,6 @@ dist
 # sublime files
 todoapp.sublime-workspace
 todoapp.sublime-project
+
+# Vscode files
+.vscode/
